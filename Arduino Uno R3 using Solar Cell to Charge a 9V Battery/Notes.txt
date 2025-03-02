@@ -1,0 +1,83 @@
+Resistor to power LCD 16 x 2:
+
+- R1 with ohm of 220
+
+Resistor to power 9V Battery (Negative):
+
+- R2 with k ohm of 12
+
+Resistor to power 9V Battery (Positive):
+
+- R3 with k ohm of 10
+
+Resistor to power Solar Cell (Positive):
+
+- R4 with k ohm of 10
+
+1. Voltage Divider Formula
+
+This formula is used to calculate the actual battery voltage from 
+the measured analog voltage (A0).
+
+Formula:
+
+Vout = Vin x R2 / R1 + R2
+
+Solving for Vin (the actual battery voltage):
+
+Vin = Vout x R1 + R2 / R2
+
+In the code it was:
+
+float voltage = sensorValue * (5.0 / 1023.0);
+float batteryVoltage = voltage * ((R1 + R2) / R2);
+
+Where:
+
+- sensorValue * (5.0 / 1023.0) -> Converts the ADC value (0-1023) 
+into voltage (0-5V)
+- The voltage divider formula is applied to get the true battery 
+voltage.
+
+2. Battery Percentage Calculation
+
+The battery percentage is mapped from 6V (0%) to 9V (100%) using a
+linear mapping formula.
+
+Battery % = ( Vbattery - Vmin / Vmax - Vmin ) x 100
+
+Where:
+
+- Vbattery is the actual battery voltage.
+- Vmin is the minimum voltage (6V in this case).
+- Vmax is the maximum voltage (9V in this case).
+
+In this code it was:
+
+float batteryPercentage = ((batteryVoltage - 6.0) / (9.0 - 6.0)) * 100.0;
+
+Where:
+
+- Vmin = 6V -> Battery is considered empty at 6V(0%).
+- Vmax = 9V -> Battery is considered full at 9V (100%).
+- The formula maps the battery voltage to a percentage scale.
+
+3. Fake Solar Charging Simulation
+
+Since Tinkercad does not simulate real charging, the code artificially
+increases or decreases battery percentage based on solar input.
+
+In this code it was:
+
+int solarValue = analogRead(solarPin);
+if(solarValue > 200){
+    batteryPercentage += 0.1;
+}else{
+    batteryPercentage -= 0.05;
+}
+
+Where:
+
+- If solarValue > 200, the battery percentage increases.
+- If no sunlight, the battery slowly discharges over time.
+- The percentage is clamped between 0% and 100% to prevent errors.
