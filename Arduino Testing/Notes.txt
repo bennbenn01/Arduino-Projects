@@ -1,0 +1,9 @@
+Resistors to power the LED:
+
+- R1 (Red)
+- R2 (Green)
+- R3 (Yellow)
+- R4 (Orange)
+- R5 (White)
+
+With the all of the ff ohm of 220

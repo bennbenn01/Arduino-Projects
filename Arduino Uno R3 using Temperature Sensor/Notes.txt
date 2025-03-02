@@ -1,0 +1,72 @@
+Resistor to power LCD 16 x 2:
+
+- R1 with ohm of 220
+
+Formula that was used to get the temperature:
+
+
+1. Converting analog reading to voltage:
+
+The analogRead function provides a value between 0 and 1023,
+which corresponds to a voltage range of 0 to 5V. The 
+formula used here is to convert that reading into a voltage:
+
+voltage = tempValue × 5.0 / 1023.0
+​
+Where:
+
+- tempValue is the raw analog reading from the temperature 
+sensor (range 0-1023).
+- voltage is the calculated voltage in the range 0-5V
+
+This formula scales the raw value from the analogRead(which 
+is between 0 and 1023) to a voltage (which is between 0 and 
+5V).
+
+
+2. Converting voltage to temperature:
+
+The code uses the TMP36 temperature sensor's characteristics
+to convert the measured voltage to a temperature value in 
+degrees Celsius. The TMP36 sensor has:
+
+- A 500mV offset at 25°C.
+- A 20mV/°C slope (i.e, the voltage increases by 20mV for
+for every degree Celsius change in temperature).
+
+The formula for calculating the temperature is devired from 
+the TMP36 sensor has:
+
+temperature = (voltage - 0.5) / 0.02
+
+Where:
+
+- voltage is the voltage measured from the temperature sensor.
+- 0.5 represents the 500mV offset (this corresponds to 25°C).
+- 0.02 is the slope of the sensor (20mV per°C, or 0.02V per °C).
+
+This formula rearranges the TMP36 sensor's output equation
+
+Vout = 500mV + (20mV x (Temperature - 25°C))
+
+To calculate the temperature:
+
+Temperature =  (Vout - 500mV) / 20mV
+
+In the code, 500mV is represented as 0.5V, and 20mV/°C is 
+represented as 0.02 V/°C.
+
+
+3. LCD Contrast Control (Optional Formuala)
+
+The code includes a direct auto contrast adjustment for the LCD 
+screen. The contrast of the LCD is set using the analogWrite 
+function, which sends a value between 0 and 255 to control
+the contrast:
+
+analogWrite(contrastPin, 30)
+
+Where:
+- contrastPin is the pin connected to the LCD's contrast control
+- 30 is the value for the contrast, where 0 is the lightest and 
+255 is the darkest

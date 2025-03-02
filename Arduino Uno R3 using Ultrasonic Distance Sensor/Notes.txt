@@ -1,0 +1,23 @@
+Resistor to power the LCD 16 x 2:
+
+- R1 with ohm of 220
+
+Formula that was used to get the Distance:
+
+Distance (cm) = Duration (µs) x 0.034 / 2
+
+Where:
+
+- duration: This is the time it takes for the ultrasonic pulse 
+to travel to the object and back to the sensor, measured in 
+microseconds (µs). This is captured using the pulseIn(echoPin, 
+HIGH) function, which measures the time the echoPin remains HIGH 
+(indicating the pulse is being received).
+- 0.034: This value represents the speed of sound in air in 
+centimeters per microseconds (cm/µs). The speed of sound is 
+approxiamately 343 meters per second, or 34,300 cm/s, which is 
+equivalent to 0.034 cm/µs. The formula assumes that sound travel
+at this speed.
+- 2: The factor of 2 accounts for the fact that the time measured
+is for the round trip of the sound wave (to the object and back).
+To calculate the one-way distance, we divide by 2.
